@@ -24,6 +24,11 @@ This will auto create a file called `layout.tsx` this file is a handy way to sha
 The pros: preverse the state and prevent unnecessarily re-rendering 
 
 ### app/layout.tsx
+
+🧠 The `layout.tsx` is the way you define the layout for parent and childrent pages.
+
+You can always overide this.
+
 ```js
 export default function RootLayout({children})
 return (
@@ -217,9 +222,17 @@ function Todos() {
 }
 ```
 
-🔴 With this `layout.tsx` we always keep the todolist only render the item details next to the list, meaning the item list will not re-render.
+🔴 With this `layout.tsx` 
+we will see a list 1... n to-do list on the left and this text 
+`This is where the item detail will be render` from `page.tsx` from the right 
 
+WHEN tap any item on the LEFT the text ~~This is where the item detail will be render~~ will be replaced by the to-do-detail
+
+
+we always keep the todolist only render the item details next to the list, meaning the item list will not re-render.
 Layout will devide by we-want-section, boosting performance 
+
+
 
 
 ### app/search/page.tsx
@@ -260,8 +273,149 @@ function Search() {
 }
 ```
 
+### app/search/page.tsx
+
+```js
+
+function Search() {
+  return <h1> Search </h1>
+}
+
+```
+Access: localhost:3000/search 
+
+### app/search/layout.tsx
+
+```js
+export default function RootLayout {
+  return (
+    <main>
+      <div>
+        <h1> Search </h1>
+      </div>
+      <div>
+      </div>
+        <Search />
+        <div> {children} </div>
+    </main>
+  )
+}
+
+```
+
+With this layout text `Search` in `page.tsx` will be replace when hit search btn. Then access `localhost:3000/search/halamhandsome`
+
+### app/search/Search.tsx
+
+Apply client component 
+
+```js
+
+`use client`
+
+function Search() {
+  const [search, setSearch] = useState("")
+  const router = useRouter()
+
+  const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSearch("")
+    router.push(`/search/${search}`)
+  };
+  return (
+    <form onSubmi={handleSearch}>
+      <input type="text" value={search} placeholder="Enter the Search term" onChane={(e) => setSearch(e.target.value)} />
+      <button type="submit" className="btn"> Search </button>
+    </form>
+  )
 
 
+}
+```
+
+### app/[searchTerm]/page.tsx
+
+```js
+
+type PapeProps = {
+  params: {
+    searchTerm: string;
+  }
+}
+
+type SearchResult = {
+  organic_results: [
+    {
+      position: number;
+      title: string;
+      link: string;
+      thumbnail: string;
+    }
+  ]
+}
+
+const search = async (searchTerm: string) => {
+  const res = await fetch(
+    `https://me.lam/search?q=${searchTerm}`
+  )
+  throw new Error('WHOOPS something broke')
+  const data: SearchResult = await res.json()
+  return data;
+}
+
+async function SearchResults( { params: { searchTerm } }: PageProps ) {
+  const searchResults = await search(searchTerm);
+  return (
+      <div>
+        <p> You searched for: {searchTerm}</p>
+        <ol>
+        {
+          searchResults.organic_results.map((result)=>(
+            <li key={result.position}>
+              <p> {result.title} </p>
+            </li>
+          ))
+        }
+        </ol>
+      </div> 
+    )
+}
+
+```
+
+### app/search/[searchTerm]/loading.tsx
+
+```js
+
+function Loading() {
+  return <div> Loading ... </div>
+}
+```
+
+### app/search/[searchTerm]/error.tsx
+
+```js
+
+'use client';
+
+export default function Error() {
+  return (
+    <div>
+      <p> Something went wrong! </p>
+      <button onClick={() => reset()}> Reset error boundary </button>
+    </div>
+  )
+}
+```
+
+
+### Page and layout 
+https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts
+
+### When to use Server and Client components?
+https://nextjs.org/docs/getting-started/react-essentials#when-to-use-server-and-client-components
+
+Client: Need browser api, statefullness (hook, useState)
 
 ## Author
 
