@@ -7,7 +7,7 @@ This project is my REACTION to the video ⬇️
   <a href="https://www.youtube.com/watch?v=6aP9nyTcd44"><img src="https://img.youtube.com/vi/6aP9nyTcd44/0.jpg" alt="IMAGE ALT TEXT"></a>
 </div>
 
-### REf 
+### Ref 
 https://nextjs.org/blog/next-13
 
 ## App directory
@@ -19,7 +19,8 @@ function Home() {
 ```
 - Delete `index.tsx` to able to use new style home page 
 
-This will auto create a file called 'layout.tsx' this file is a handy way to share different UI component in sort of hierachical fashion way.
+This will auto create a file called `layout.tsx` this file is a handy way to share different UI component in sort of hierachical fashion way.
+
 The pros: preverse the state and prevent unnecessarily re-rendering 
 
 ### app/layout.tsx
@@ -41,7 +42,7 @@ return (
 function Header() {
   return (
     <header> 
-      <Link href="/">this is a Header </Link>
+      <Link href="/">This is a Header </Link>
     </header>
   )
 }
@@ -58,6 +59,7 @@ function Todos() {
 }
 ```
 Access: localhost:3000/todos
+
 🟡 All components are inside the `app` is server component 
 
 ### app/todos/TodosList.tsx
@@ -196,6 +198,7 @@ export default function RootLayout() {
   return (
     <main>
       <TodoList />
+      /* 🔴 the children is the rest of the page */
       <div> {children} </div>
     </main>
   )
@@ -214,12 +217,48 @@ function Todos() {
 }
 ```
 
-🔴 With this layout.tsx we always keep the todolist only render the item details next to the list, meaning the item list will not re-render 
+🔴 With this `layout.tsx` we always keep the todolist only render the item details next to the list, meaning the item list will not re-render.
+
 Layout will devide by we-want-section, boosting performance 
 
 
+### app/search/page.tsx
+
+```js
+function Search() {
+  return <div> Search </div>
+}
+```
+
+Access: localhost:3000/search
 
 
+### app/search/layout.tsx
+
+```js
+export default function RootLayout (
+  return (
+    <main>
+      <h1> Search </h1>
+      <div className="flex-1 pl-5">
+        <Search />
+        // the rest of the page is children
+        <div> {children} </div>
+      </div>
+    </main>
+  )
+)
+```
+
+### app/search/Search.tsx
+
+```js
+function Search() {
+  return (
+    <h1> Search component </h1>
+  )
+}
+```
 
 
 
