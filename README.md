@@ -408,6 +408,44 @@ export default function Error() {
 }
 ```
 
+### app/search/head.tsx
+
+```js
+
+function Head() {
+  return (
+    <title>
+      The search page
+    </title>
+  )
+}
+```
+
+### Rout groups 
+  You want seperate the user and admin without adding the `localhost/admin/list`
+
+https://nextjs.org/docs/app/building-your-application/routing/route-groups
+
+Example:
+/(user)/search
+/(user)/todo
+/(admin)/develop
+
+### Fallback 
+
+```js 
+
+function Home() {
+  return (
+    <div>
+      <Suspense fallback=(<p> Loading ... </p>)>
+      <TodoList />
+      </Suspense>
+    </div>
+  )
+}
+```
+
 
 ### Page and layout 
 https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts
