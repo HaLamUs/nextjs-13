@@ -456,6 +456,7 @@ https://nextjs.org/docs/getting-started/react-essentials#when-to-use-server-and-
 Client: Need browser api, statefullness (hook, useState)
 
 <p><img type="separator" height=8px width="100%" src="https://github.com/HaLamUs/nft-drop/blob/main/assets/aqua.png"></p>
+
 ## Author
 
 This repo was developed by [@lamha](https://github.com/HaLamUs). 
